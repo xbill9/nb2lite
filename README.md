@@ -132,31 +132,6 @@ Use the [Makefile](Makefile) to streamline common workflows:
 
 ---
 
-## 🚀 Advanced: vLLM Inference Deployment on GCP
-
-The [Makefile](Makefile) includes pre-configured recipes for deploying a high-performance, self-hosted **vLLM** inference server on Google Cloud Platform (GCP) Compute Engine.
-
-* **Target Hardware**: NVIDIA L4 GPU on a `g2-standard-4` machine.
-* **Optimization**: Compressed-tensors quantization, custom KV cache dtype (`fp8`), chunked prefill, and automated tool-calling.
-
-### Deployment Commands
-
-```bash
-# Deploy the vLLM server with NVIDIA L4 GPU on GCE
-make deploy
-
-# Check compute instance status
-make status
-
-# Fetch the external IP endpoint
-make endpoint
-
-# Query the deployed model with a test prompt
-make query PROMPT="Explain the role of an SRE in production systems"
-
-# Teardown and destroy the instance to prevent cloud billing
-make destroy
-```
 
 ---
 
