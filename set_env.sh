@@ -18,6 +18,23 @@ echo "✅ Environment variables GEMINI_API_KEY and GOOGLE_API_KEY successfully e
 CURRENT_DIR=$(pwd)
 CONFIG_FILE="$CURRENT_DIR/.agents/mcp_config.json"
 
+# Create .agents/mcp_config.json with a default structure if it does not exist
+if [ ! -f "$CONFIG_FILE" ]; then
+    mkdir -p "$(dirname "$CONFIG_FILE")"
+    cat > "$CONFIG_FILE" <<'EOF'
+{
+  "mcpServers": {
+    "nb2lite-agent": {
+      "command": "python",
+      "args": [],
+      "env": {}
+    }
+  }
+}
+EOF
+    echo "✅ Created $CONFIG_FILE with default configuration."
+fi
+
 if [ -f "$CONFIG_FILE" ]; then
     python3 -c "
 import json, sys, os
