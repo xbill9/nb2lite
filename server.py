@@ -249,6 +249,61 @@ def edit_local_image(
 
 
 @mcp.tool()
+def edit_local_image_with_style(
+    image_path: str,
+    style_image_path: str,
+    edit_prompt: str,
+    aspect_ratio: str = "1:1",
+    thinking_level: str = "medium",
+) -> str:
+    """Edits a local image using another local image as a style reference.
+
+    - image_path: Path to the local image to be edited.
+    - style_image_path: Path to the local image to use as a style reference.
+    - edit_prompt: Natural language description of modifications to apply.
+    - aspect_ratio: Aspect ratio of the output image ('1:1', '16:9', '9:16', '4:3', '3:4').
+    - thinking_level: The amount of thought tokens to generate ('minimal', 'low', 'medium', 'high').
+    """
+    try:
+        _validate_inputs(aspect_ratio=aspect_ratio, thinking_level=thinking_level)
+        img_data = _get_image_data(image_path)
+        style_data = _get_image_data(style_image_path)
+
+        response_format = {"type": "image"}
+        if aspect_ratio:
+            response_format["aspect_ratio"] = aspect_ratio
+
+        generation_config = {}
+        if thinking_level:
+            generation_config["thinking_level"] = thinking_level.lower()
+
+        ai_client = _get_client()
+        # We pass the style image first, then the target image, then the prompt.
+        interaction = ai_client.interactions.create(
+            model=MODEL_NAME,
+            input=cast(
+                Any,
+                [
+                    style_data,
+                    img_data,
+                    {
+                        "type": "text",
+                        "text": f"Apply the exact visual style, artistic technique, color palette, and lighting from the first image to the person in the second image. {edit_prompt}",
+                    },
+                ],
+            ),
+            response_format=cast(Any, response_format),
+            generation_config=cast(Any, generation_config),
+            store=True,
+        )
+
+        return _handle_response(interaction, "style_edit")
+    except Exception as e:
+        logger.exception("Style edit failed")
+        return f"🔴 Style edit failed: {str(e)}"
+
+
+@mcp.tool()
 def get_help() -> str:
     """Provides help text and summarizes the configuration options and all available image generation/editing tools for this MCP server."""
     gemini_key_status = (
@@ -287,6 +342,13 @@ def get_help() -> str:
         "    - `edit_prompt` (str, required): Natural language description of modifications to apply.\n"
         "    - `aspect_ratio` (str, optional): Output ratio (default: `'1:1'`). Supported: `1:1`, `16:9`, `9:16`, `4:3`, `3:4`.\n"
         "    - `thinking_level` (str, optional): Latency vs. quality steps (default: `'medium'`). Supported: `minimal`, `low`, `medium`, `high`.\n"
+        "- **`edit_local_image_with_style`**: Uses one local image as a style reference to edit another local image.\n"
+        "  - *Arguments*:\n"
+        "    - `image_path` (str, required): Path to the target image.\n"
+        "    - `style_image_path` (str, required): Path to the style reference image.\n"
+        "    - `edit_prompt` (str, required): Description of edits to apply.\n"
+        "    - `aspect_ratio` (str, optional): Output ratio (default: `'1:1'`).\n"
+        "    - `thinking_level` (str, optional): quality steps (default: `'medium'`).\n"
         "- **`get_help`**: Provides this help text and summarizes the server configuration and available tools.\n\n"
         "#### 💾 File Output & Stateful Session Management\n"
         "- All successful generation and edit requests save the output image locally under `IMAGE_OUTPUT_DIR` using a concurrent-safe naming format: `<prefix>_<timestamp>_<uuid_hex>.<extension>` (e.g. `gen_1780123456_a3b2c1d0.png`).\n"
