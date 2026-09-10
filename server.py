@@ -30,18 +30,30 @@ SUPPORTED_ASPECT_RATIOS = {"1:1", "16:9", "9:16", "4:3", "3:4"}
 SUPPORTED_THINKING_LEVELS = {"minimal", "low", "medium", "high"}
 
 
-def _get_client() -> genai.Client:
-    """Helper to lazily initialize or retrieve the Gemini Client.
+def _api_key() -> str | None:
+    """Resolve the Gemini API key.
 
-    Supports both GEMINI_API_KEY and the GOOGLE_API_KEY fallback.
+    NB2LITE_GEMINI_API_KEY is set by the Claude Code plugin's userConfig. Plugin
+    env values override the parent environment even when empty, so the plugin
+    uses its own variable and an unset plugin key falls through to
+    GEMINI_API_KEY / GOOGLE_API_KEY instead of blanking them.
     """
+    return (
+        os.environ.get("NB2LITE_GEMINI_API_KEY")
+        or os.environ.get("GEMINI_API_KEY")
+        or os.environ.get("GOOGLE_API_KEY")
+    )
+
+
+def _get_client() -> genai.Client:
+    """Helper to lazily initialize or retrieve the Gemini Client."""
     global client
     if client is None:
-        api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+        api_key = _api_key()
         if not api_key:
             raise ValueError(
-                "GEMINI_API_KEY or GOOGLE_API_KEY environment variable is missing. "
-                "Please set it and restart the server."
+                "No Gemini API key: set the nb2lite plugin's API key, or the "
+                "GEMINI_API_KEY / GOOGLE_API_KEY environment variable, and restart the server."
             )
         client = genai.Client(api_key=api_key)
     return client
@@ -307,18 +319,14 @@ def edit_local_image_with_style(
 @mcp.tool()
 def get_help() -> str:
     """Provides help text and summarizes the configuration options and all available image generation/editing tools for this MCP server."""
-    gemini_key_status = (
-        "Set"
-        if (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY"))
-        else "Not Set"
-    )
+    gemini_key_status = "Set" if _api_key() else "Not Set"
     image_output_dir = os.environ.get("IMAGE_OUTPUT_DIR", ".")
 
     return (
         "### 🌌 NB2Lite Agent (gemini-3.1-flash-lite-image) Help & Configuration\n\n"
         "This MCP server interfaces with the stateful **Interactions API** using the Google GenAI SDK to generate and edit images via the high-efficiency **`gemini-3.1-flash-lite-image`** model.\n\n"
         "#### ⚙️ Configuration Options (Environment Variables)\n"
-        f"- **`GEMINI_API_KEY` / `GOOGLE_API_KEY`**: API keys used to authenticate with Gemini.\n"
+        f"- **`NB2LITE_GEMINI_API_KEY` / `GEMINI_API_KEY` / `GOOGLE_API_KEY`**: API key used to authenticate with Gemini, checked in that order (the first is set by the Claude Code plugin's config).\n"
         f"  - *Current Status:* `{gemini_key_status}`\n"
         f"- **`GEMINI_MODEL_NAME`**: The name of the interactions model to use.\n"
         f"  - *Current Value:* `{MODEL_NAME}`\n"

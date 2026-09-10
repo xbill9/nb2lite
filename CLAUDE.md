@@ -11,7 +11,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Runtime setup
 
 - Claude Code's `nb2lite` MCP server is registered at user scope in `~/.claude.json` and runs `GEMINI_API_KEY=$(cat ~/gemini.key) exec python3 /home/xbill/nb2lite/server.py`. After changing `server.py` or dependencies, the running server is stale until `/mcp` → reconnect.
-- Env: `GEMINI_API_KEY` (or `GOOGLE_API_KEY`); optional `GEMINI_MODEL_NAME`, `IMAGE_OUTPUT_DIR` (default `.`).
+- Env: API key from `NB2LITE_GEMINI_API_KEY` (set by the plugin's `userConfig`), then `GEMINI_API_KEY`, then `GOOGLE_API_KEY`; optional `GEMINI_MODEL_NAME`, `IMAGE_OUTPUT_DIR` (default `.`).
+- This repo is also a Claude Code plugin marketplace (`.claude-plugin/`, `skills/`). The plugin's MCP server lives in `plugin.json`, not a root `.mcp.json` — a root `.mcp.json` would also load as a broken project server here. Plugin `env` values override the parent environment even when empty, which is why the key uses its own variable. `.claude/skills/verify-live` is a symlink to `skills/verify-live`.
 - `set_env.sh` and `init.sh` are identical by design — edit both together. They must be `source`d.
 
 ## Gotchas

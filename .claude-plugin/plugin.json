@@ -1,0 +1,29 @@
+{
+  "name": "nb2lite",
+  "description": "Generate, edit and restyle images with gemini-3.1-flash-lite-image via Gemini's stateful Interactions API: text-to-image, multi-turn edits by interaction ID, local-image edits and style transfer. Includes /verify-live, an end-to-end check against the real API.",
+  "version": "0.1.0",
+  "author": {
+    "name": "xbill9",
+    "url": "https://github.com/xbill9"
+  },
+  "homepage": "https://github.com/xbill9/nb2lite",
+  "repository": "https://github.com/xbill9/nb2lite",
+  "keywords": ["gemini", "image-generation", "image-editing", "mcp", "interactions-api", "nano-banana"],
+  "mcpServers": {
+    "nb2lite": {
+      "command": "python3",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/server.py"],
+      "env": {
+        "NB2LITE_GEMINI_API_KEY": "${user_config.gemini_api_key}"
+      }
+    }
+  },
+  "userConfig": {
+    "gemini_api_key": {
+      "type": "string",
+      "title": "Gemini API key",
+      "description": "API key for the Gemini API (https://aistudio.google.com/apikey). Passed to the MCP server as GEMINI_API_KEY.",
+      "sensitive": true
+    }
+  }
+}

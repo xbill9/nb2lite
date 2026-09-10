@@ -129,6 +129,21 @@ class TestNB2LiteAgent(unittest.TestCase):
         self.assertIn("🟢 Image successfully saved!", result)
         self.assertIn("int_steps", result)
 
+    @patch("server.genai.Client")
+    def test_api_key_precedence(self, mock_client_cls):
+        """Plugin-configured key wins; an empty plugin key falls back to GEMINI_API_KEY."""
+        import server
+
+        env = {"NB2LITE_GEMINI_API_KEY": "plugin-key", "GEMINI_API_KEY": "env-key"}
+        with patch.dict(os.environ, env), patch.object(server, "client", None):
+            server._get_client()
+        mock_client_cls.assert_called_with(api_key="plugin-key")
+
+        env["NB2LITE_GEMINI_API_KEY"] = ""
+        with patch.dict(os.environ, env), patch.object(server, "client", None):
+            server._get_client()
+        mock_client_cls.assert_called_with(api_key="env-key")
+
     def test_mcp_tools_registered(self):
         """Verify that the expected tools are registered to the FastMCP server."""
         tools = [t.name for t in mcp._tool_manager.list_tools()]

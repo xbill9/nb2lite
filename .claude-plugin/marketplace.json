@@ -1,0 +1,15 @@
+{
+  "name": "nb2lite",
+  "description": "An MCP server for gemini-3.1-flash-lite-image: generate, edit and restyle images from Claude Code through Gemini's stateful Interactions API.",
+  "owner": {
+    "name": "xbill9",
+    "url": "https://github.com/xbill9"
+  },
+  "plugins": [
+    {
+      "name": "nb2lite",
+      "source": "./",
+      "description": "Generate and iteratively edit images with gemini-3.1-flash-lite-image from Claude Code. Bundles the MCP server and /verify-live, which proves the real API path end to end — because mocked tests pass even after the API has broken."
+    }
+  ]
+}

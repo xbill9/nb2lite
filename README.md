@@ -28,6 +28,7 @@ The MCP server checks the following environment variables on startup and executi
 
 | Variable | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
+| `NB2LITE_GEMINI_API_KEY` | `str` | API key set by the Claude Code plugin's config; checked first. | *Optional* |
 | `GEMINI_API_KEY` | `str` | Primary API Key used to authenticate with the Gemini API. | *Required (or fallback)* |
 | `GOOGLE_API_KEY` | `str` | Fallback API Key used if `GEMINI_API_KEY` is not defined. | *Optional* |
 | `GEMINI_MODEL_NAME` | `str` | Overrides the default model used for interactions. | `"gemini-3.1-flash-lite-image"` |
@@ -80,7 +81,17 @@ python3 server.py
 
 ### Register with an MCP client
 
-**Claude Code** (user scope, key read from `~/gemini.key` at launch):
+**Claude Code plugin** — bundles the server and the `/nb2lite:verify-live` skill. This repo is its own marketplace:
+
+```bash
+pip install "google-genai>=2,<3" "mcp>=2,<3"   # into the python3 on your PATH
+claude plugin marketplace add xbill9/nb2lite
+claude plugin install nb2lite@nb2lite
+```
+
+Set the Gemini API key in the plugin's configuration (`/plugin` → nb2lite). If you leave it blank, the server falls back to `GEMINI_API_KEY` / `GOOGLE_API_KEY` from the environment Claude Code was started in. Use either the plugin or the manual registration below, not both — both would run a server with the same tools.
+
+**Claude Code, manual** (user scope, key read from `~/gemini.key` at launch):
 
 ```bash
 claude mcp add-json -s user nb2lite '{"type":"stdio","command":"bash","args":["-c","GEMINI_API_KEY=$(cat \"$HOME/gemini.key\") exec python3 /path/to/nb2lite/server.py"]}'
