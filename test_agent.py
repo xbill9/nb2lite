@@ -1,10 +1,10 @@
-import unittest
 import os
 import tempfile
+import unittest
 from unittest.mock import MagicMock, patch
 
 # Import functions to test from server
-from server import _get_image_data, generate_image, edit_image, mcp
+from server import _get_image_data, edit_image, generate_image, mcp
 
 
 class TestNB2LiteAgent(unittest.TestCase):
@@ -103,6 +103,7 @@ class TestNB2LiteAgent(unittest.TestCase):
     def test_handle_response_steps_schema(self):
         """Verify a real steps-schema Interaction exposes output_image (requires google-genai>=2)."""
         from google.genai.interactions import Interaction
+
         from server import _handle_response
 
         interaction = Interaction.model_validate(
@@ -113,7 +114,11 @@ class TestNB2LiteAgent(unittest.TestCase):
                     {
                         "type": "model_output",
                         "content": [
-                            {"type": "image", "data": "aGVsbG8=", "mime_type": "image/png"}
+                            {
+                                "type": "image",
+                                "data": "aGVsbG8=",
+                                "mime_type": "image/png",
+                            }
                         ],
                     }
                 ],

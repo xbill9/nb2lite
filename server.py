@@ -1,11 +1,12 @@
-import os
 import base64
-import time
 import logging
 import mimetypes
-import uuid
+import os
 import sys
+import time
+import uuid
 from typing import Any, cast
+
 from google import genai
 from mcp.server.mcpserver import MCPServer
 
@@ -166,7 +167,7 @@ def generate_image(
         return _handle_response(interaction, "gen")
     except Exception as e:
         logger.exception("Image generation failed")
-        return f"🔴 Image generation failed: {str(e)}"
+        return f"🔴 Image generation failed: {e!s}"
 
 
 @mcp.tool()
@@ -204,7 +205,7 @@ def edit_image(
         return _handle_response(interaction, "edit")
     except Exception as e:
         logger.exception("Editing failed")
-        return f"🔴 Editing failed: {str(e)}"
+        return f"🔴 Editing failed: {e!s}"
 
 
 @mcp.tool()
@@ -245,7 +246,7 @@ def edit_local_image(
         return _handle_response(interaction, "edit_local")
     except Exception as e:
         logger.exception("Local image edit failed")
-        return f"🔴 Local image edit failed: {str(e)}"
+        return f"🔴 Local image edit failed: {e!s}"
 
 
 @mcp.tool()
@@ -300,7 +301,7 @@ def edit_local_image_with_style(
         return _handle_response(interaction, "style_edit")
     except Exception as e:
         logger.exception("Style edit failed")
-        return f"🔴 Style edit failed: {str(e)}"
+        return f"🔴 Style edit failed: {e!s}"
 
 
 @mcp.tool()

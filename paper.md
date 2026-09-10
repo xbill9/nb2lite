@@ -134,7 +134,7 @@ embeddings at the wrong *magnitude*.
 Gemma-4 doesn't use a plain embedding. It uses `Gemma4TextScaledWordEmbedding`, whose forward is:
 
 ```python
-return super().forward(input_ids) * self.embed_scale   # embed_scale = hidden_size ** 0.5
+return super().forward(input_ids) * self.embed_scale  # embed_scale = hidden_size ** 0.5
 ```
 
 The `×√hidden_size` (= √2816 ≈ **53**) happens *inside the embedding*, and the model forward does **not**
@@ -145,7 +145,7 @@ downstream washed out to noise.
 One line:
 
 ```python
-ie = emb(ids) * (hidden_size ** 0.5)   # match Gemma4TextScaledWordEmbedding
+ie = emb(ids) * (hidden_size**0.5)  # match Gemma4TextScaledWordEmbedding
 ```
 
 `DEV GEN: 'The capital of France is Paris.'`. This is the same trap that bit the E2B slim server; when you

@@ -61,7 +61,7 @@ interaction = client.interactions.create(
     input="An astronaut cooking instant ramen in zero gravity, retro anime style",
     response_format={"type": "image", "aspect_ratio": "16:9"},
     generation_config={"thinking_level": "high"},
-    store=True
+    store=True,
 )
 
 # 2. Stateful Edit: Modify the existing image
@@ -70,7 +70,7 @@ edited_interaction = client.interactions.create(
     previous_interaction_id=interaction.id,
     input="Make the spacesuit neon green and add floating ramen chopsticks",
     response_format={"type": "image"},
-    store=True
+    store=True,
 )
 
 # 3. Local Image Edit (In-line Base64 Upload)
@@ -81,10 +81,13 @@ local_edit = client.interactions.create(
     model="gemini-3.1-flash-lite-image",
     input=[
         {"type": "image", "data": b64_data, "mime_type": "image/png"},
-        {"type": "text", "text": "Turn this rough drawing into a high-fidelity 3D model render"}
+        {
+            "type": "text",
+            "text": "Turn this rough drawing into a high-fidelity 3D model render",
+        },
     ],
     response_format={"type": "image", "aspect_ratio": "4:3"},
-    store=True
+    store=True,
 )
 ```
 

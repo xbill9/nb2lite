@@ -22,4 +22,4 @@ clean:
 	rm -rf .mypy_cache
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 
-.PHONY: install run test clean 
+.PHONY: install run test lint clean

@@ -86,7 +86,11 @@ Generates a 1k resolution image from a text prompt and saves it locally.
 * **Usage Example**:
   ```python
   # Tool Call
-  generate_image(prompt="A futuristic cyberpunk kitchen cooking noodles", aspect_ratio="16:9", thinking_level="high")
+  generate_image(
+      prompt="A futuristic cyberpunk kitchen cooking noodles",
+      aspect_ratio="16:9",
+      thinking_level="high",
+  )
   ```
 
 #### 2. `edit_image`
@@ -99,7 +103,11 @@ Iteratively refines or modifies an existing image while preserving pixel and con
 * **Usage Example**:
   ```python
   # Tool Call
-  edit_image(previous_interaction_id="int_abc123xyz", edit_prompt="add a neon green glowing sign saying 'RAMEN' on the wall", thinking_level="high")
+  edit_image(
+      previous_interaction_id="int_abc123xyz",
+      edit_prompt="add a neon green glowing sign saying 'RAMEN' on the wall",
+      thinking_level="high",
+  )
   ```
 
 #### 3. `edit_local_image`
@@ -113,7 +121,11 @@ Uploads a local image file in-line via Base64 and applies edits described in nat
 * **Usage Example**:
   ```python
   # Tool Call
-  edit_local_image(image_path="./my_sketch.png", edit_prompt="Render this hand-drawn sketch as a high-fidelity 3D model", aspect_ratio="4:3")
+  edit_local_image(
+      image_path="./my_sketch.png",
+      edit_prompt="Render this hand-drawn sketch as a high-fidelity 3D model",
+      aspect_ratio="4:3",
+  )
   ```
 
 ---
