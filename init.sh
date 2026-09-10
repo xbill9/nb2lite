@@ -25,7 +25,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
 {
   "mcpServers": {
     "nb2lite-agent": {
-      "command": "python",
+      "command": "python3",
       "args": [],
       "env": {}
     }
@@ -42,6 +42,7 @@ with open('$CONFIG_FILE', 'r') as f:
     data = json.load(f)
 if 'mcpServers' in data and 'nb2lite-agent' in data['mcpServers']:
     server = data['mcpServers']['nb2lite-agent']
+    server['command'] = 'python3'
     server['args'] = ['$CURRENT_DIR/server.py']
     if 'env' not in server:
         server['env'] = {}
