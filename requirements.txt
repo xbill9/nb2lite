@@ -1,2 +1,2 @@
-google-genai
-mcp
+google-genai>=2,<3
+mcp>=2,<3

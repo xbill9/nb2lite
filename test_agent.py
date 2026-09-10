@@ -100,6 +100,30 @@ class TestNB2LiteAgent(unittest.TestCase):
             self.assertIn("🟢 Image successfully saved!", result)
             self.assertIn("int_456", result)
 
+    def test_handle_response_steps_schema(self):
+        """Verify a real steps-schema Interaction exposes output_image (requires google-genai>=2)."""
+        from google.genai.interactions import Interaction
+        from server import _handle_response
+
+        interaction = Interaction.model_validate(
+            {
+                "id": "int_steps",
+                "status": "completed",
+                "steps": [
+                    {
+                        "type": "model_output",
+                        "content": [
+                            {"type": "image", "data": "aGVsbG8=", "mime_type": "image/png"}
+                        ],
+                    }
+                ],
+            }
+        )
+        with patch.dict(os.environ, {"IMAGE_OUTPUT_DIR": self.test_dir.name}):
+            result = _handle_response(interaction, "steps")
+        self.assertIn("🟢 Image successfully saved!", result)
+        self.assertIn("int_steps", result)
+
     def test_mcp_tools_registered(self):
         """Verify that the expected tools are registered to the FastMCP server."""
         tools = [t.name for t in mcp._tool_manager.list_tools()]
