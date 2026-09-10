@@ -7,10 +7,10 @@ import uuid
 import sys
 from typing import Any, cast
 from google import genai
-from mcp.server.fastmcp import FastMCP
+from mcp.server.mcpserver import MCPServer
 
-# Initialize FastMCP Server
-mcp = FastMCP("NB2Lite Agent")
+# Initialize MCP Server (mcp>=2 renamed FastMCP to MCPServer)
+mcp = MCPServer("NB2Lite Agent")
 
 # Configure Logging to stderr
 logging.basicConfig(
