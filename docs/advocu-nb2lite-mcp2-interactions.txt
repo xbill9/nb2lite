@@ -1,0 +1,29 @@
+# Advocu activity — paste into app.advocu.com
+
+Add new activity -> New activity -> Content creation -> Regular form.
+Once the article is public you can instead paste the Link to Content into
+"Generate your activity with AI" and check what it produces against this.
+
+## Content type
+Articles
+
+## What was the title?
+Nano Banana 2 Lite, Revisited: MCP 2.0, the New Interactions API, and Three Agent CLIs
+
+## What was it about?
+The Nano Banana 2 Lite MCP server from July, updated: FastMCP is now MCPServer, google-genai 1.x gets a 400 from the Interactions API, and one server now runs in Claude Code, Codex and Antigravity CLI.
+
+## Tags
+mcp, python, gemini, claudecode
+
+## How many people read your content?
+3000 (standing estimate, not a counter reading)
+
+## Date published
+2026-09-13
+
+## Link to Content
+https://dev.to/gde/nano-banana-2-lite-revisited-mcp-20-the-new-interactions-api-and-three-agent-clis-37g5
+
+---
+Save as draft rather than submitting, and read it back before you do.
