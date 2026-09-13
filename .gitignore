@@ -5,6 +5,8 @@ __pycache__/
 *.webp
 !docs/*.jpg
 !docs/img/*.jpg
+!docs/medium/img/*.jpg
+!docs/medium/img/*.png
 .agents/mcp_config.json
 .ruff_cache
 .mypy_cache
