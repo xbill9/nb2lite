@@ -1,0 +1,3 @@
+devto-gde = https://dev.to/gde/nano-banana-2-lite-revisited-mcp-20-the-new-interactions-api-and-three-agent-clis-37g5
+medium = https://xbill999.medium.com/nano-banana-2-lite-revisited-mcp-2-0-the-new-interactions-api-and-three-agent-clis-6e9abcc716db
+repo = https://github.com/xbill9/nb2lite
