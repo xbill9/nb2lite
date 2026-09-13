@@ -1,0 +1,3 @@
+# Captured 2026-09-13T17:58:39Z: hand-driven JSON-RPC over stdio against server.py (mcp 2.2.0)
+initialize OK: name='NB2Lite Agent' version='' proto 2025-06-18
+tools/list OK: 5 tools -> generate_image, edit_image, edit_local_image, edit_local_image_with_style, get_help

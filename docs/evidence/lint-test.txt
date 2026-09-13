@@ -1,0 +1,13 @@
+# Captured 2026-09-13T17:59:20Z
+$ make lint
+ruff check .
+All checks passed!
+ruff format --check .
+8 files already formatted
+mypy .
+Success: no issues found in 2 source files
+$ make test
+----------------------------------------------------------------------
+Ran 12 tests in 0.305s
+
+OK

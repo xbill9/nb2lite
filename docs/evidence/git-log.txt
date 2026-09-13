@@ -1,0 +1,16 @@
+1a30238 2026-09-13 docs: agy needs the global skills link; note -p flag ordering
+22865b8 2026-09-13 docs: refresh for Claude Code, Codex and agy; drop unrelated articles
+db9bd31 2026-09-13 CLAUDE.md: MCP 2.0 notes, format hook, plugin version bumps, image output
+9ba2797 2026-09-13 verify-live: parallel steps, deferred-tool and output-dir notes; plugin 0.1.3
+b1411cd 2026-09-13 style edit: drop "the person" from the prompt; verify-live uses a real style reference
+59ea54f 2026-09-13 verify-live: cover edit_local_image_with_style; bump plugin to 0.1.1
+bffd941 2026-09-13 test: list tools via public MCPServer.list_tools() instead of _tool_manager
+9f43672 2026-09-10 package nb2lite as a Claude Code plugin + marketplace
+bfeb6de 2026-09-10 update README for mcp 2.x / google-genai 2.x; fix generated MCP config
+74c047c 2026-09-10 add CLAUDE.md, ruff format hook and /verify-live skill; make lint pass
+034e5b8 2026-09-10 pin google-genai>=2 for the new Interactions schema
+6a7d894 2026-09-10 port server.py to mcp 2.x: FastMCP -> MCPServer
+4759091 2026-08-01 update
+cca2997 2026-07-11 update mcp handling
+4272491 2026-06-30 chore: clean up unused vLLM deployment targets and GCP configuration variables
+5296013 2026-06-30 Initial commit

@@ -1,0 +1,8 @@
+# Claims deliberately exempt from check-facts.py, each with its reason.
+# An entry here is a decision, not a silencing: if you cannot write the reason,
+# the claim needs an artifact instead.
+
+# check-facts reads "sdk-2x" inside the dev.to URL slug
+# fastmcp-is-now-mcpserver-migrating-a-python-mcp-server-to-the-mcp-sdk-2x-2nhj
+# as a "2x" ratio. It is part of a link target, not a claim, so there is nothing to trace.
+2x

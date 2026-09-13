@@ -3,6 +3,8 @@ __pycache__/
 *.jpg
 *.png
 *.webp
+!docs/*.jpg
+!docs/img/*.jpg
 .agents/mcp_config.json
 .ruff_cache
 .mypy_cache

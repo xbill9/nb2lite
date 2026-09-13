@@ -1,0 +1,17 @@
+# Captured 2026-09-13T18:01:13Z: git show -s 034e5b8 (the google-genai 2.x pin)
+034e5b8 2026-09-10
+
+pin google-genai>=2 for the new Interactions schema
+
+google-genai 1.x targets the legacy Interactions schema, which the API
+removed on 2026-06-08; every call now fails with a 400 asking for SDK
+>= 2.0.0. 2.x reads the new steps schema and populates output_image, so
+server.py works unchanged once the SDK is upgraded.
+
+- requirements.txt: pin google-genai>=2,<3 and mcp>=2,<3
+- test_agent.py: validate a real steps-schema Interaction through
+  _handle_response; the MagicMock tests could not catch this break
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01M1xYmRwDA2MeLhSJjpkexr
+

@@ -1,0 +1,4 @@
+# Captured 2026-09-13T17:59:17Z: the same interactions.create call nb2lite makes, run with google-genai 1.x from a scratch --target install (global python3 keeps 2.x)
+<stdin>:7: UserWarning: Interactions usage is experimental and may change in future versions.
+google-genai 1.75.0
+BadRequestError: Error code: 400 - {'error': {'message': 'The legacy Interactions API schema is no longer supported. Please upgrade your google-genai Python SDK to version >= 2.0.0 (e.g., run pip install -U google-genai) to use the Interactions API. For details and migration examples, see: https://ai.google.dev/gemini-api/docs/interactions-breaking-changes-may-2026', 'code': 'invalid_request'}}

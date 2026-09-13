@@ -1,0 +1,28 @@
+# Captured 2026-09-13T17:59:20Z
+$ git show bffd941 -- test_agent.py
+bffd941 2026-09-13 test: list tools via public MCPServer.list_tools() instead of _tool_manager
+
+diff --git a/test_agent.py b/test_agent.py
+index 1151615..fcb3410 100644
+--- a/test_agent.py
++++ b/test_agent.py
+@@ -1,3 +1,4 @@
++import asyncio
+ import os
+ import tempfile
+ import unittest
+@@ -145,11 +146,12 @@ class TestNB2LiteAgent(unittest.TestCase):
+         mock_client_cls.assert_called_with(api_key="env-key")
+ 
+     def test_mcp_tools_registered(self):
+-        """Verify that the expected tools are registered to the FastMCP server."""
+-        tools = [t.name for t in mcp._tool_manager.list_tools()]
++        """Verify that the expected tools are registered to the MCPServer."""
++        tools = [t.name for t in asyncio.run(mcp.list_tools())]
+         self.assertIn("generate_image", tools)
+         self.assertIn("edit_image", tools)
+         self.assertIn("edit_local_image", tools)
++        self.assertIn("edit_local_image_with_style", tools)
+         self.assertIn("get_help", tools)
+ 
+     def test_get_help(self):

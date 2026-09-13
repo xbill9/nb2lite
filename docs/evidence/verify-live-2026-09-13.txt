@@ -1,0 +1,55 @@
+# Captured 2026-09-13 ~17:54Z: verify-live run in Claude Code 2.1.270 through the
+# user-scope nb2lite MCP server (mcp 2.2.0, google-genai 2.22.0), all calls at
+# thinking_level="minimal". Tool results copied verbatim from the session; the
+# images were inspected with Read and then deleted, per the repo workflow.
+
+$ python3 -m unittest test_agent
+Ran 12 tests in 0.311s
+OK
+
+generate_image(prompt="a small red cube on a white table")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/gen_1789322078_6e2b9f48.jpg
+• Interaction ID: v1_ChdYZU9tYXVuNkd0VzBfUFVQbTkyai1RMBIXWGVPbWF1bjZHdFcwX1BVUG05MmotUTA
+inspection: red cube on a white table, bright room
+
+generate_image(prompt="a loose watercolor painting of sunflowers, visible brushstrokes and paper texture")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/gen_1789322083_bdff2879.jpg
+• Interaction ID: v1_ChdZZU9tYXRtSE81TFBfdU1Qajg3aHlRcxIXWWVPbWF0bUhPNUxQX3VNUGo4N2h5UXM
+inspection: watercolor sunflowers in a vase, deckled paper edges
+
+edit_image(previous_interaction_id=<cube>, edit_prompt="make the cube blue")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/edit_1789322091_afa1cfad.jpg
+• Interaction ID: v1_ChdYZU9tYXVuNkd0VzBfUFVQbTkyai1RMBIXYXVPbWFyclhETF9qX3VNUHNKLUI2QWM
+inspection: identical composition, only the cube recoloured blue
+
+edit_local_image(image_path=<cube>, edit_prompt="add a small green sphere next to the cube")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/edit_local_1789322096_d8b845a0.jpg
+• Interaction ID: v1_ChdiLU9tYXFDN0U5ZmlfdU1QenBma3VBaxIXYi1PbWFxQzdFOWZpX3VNUHpwZmt1QWs
+inspection: red cube with a green sphere beside it, scene otherwise unchanged
+
+edit_local_image_with_style(image_path=<cube>, style_image_path=<sunflowers>, edit_prompt="keep the cube and table")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/style_edit_1789322103_21f2bfd8.jpg
+• Interaction ID: v1_ChdkdU9tYXQ3YkNZLTNfUFVQX1ozQS1BdxIXZHVPbWF0N2JDWS0zX1BVUF9aM0EtQXc
+inspection: the cube scene (cube, table, plant, window) rendered as watercolor on deckled paper; no sunflowers
+
+# Also captured the same day, Codex 0.153.4 (codex exec, read-only sandbox), server passed with -c overrides:
+mcp: nb2lite/get_help (failed)
+MCP tool call requires approval, but approval policy is never
+# ...and with -c 'mcp_servers.nb2lite.default_tools_approval_mode="approve"':
+mcp: nb2lite/get_help (completed)
+### 🌌 NB2Lite Agent (gemini-3.1-flash-lite-image) Help & Configuration
+
+# agy 1.1.27, after `agy mcp add nb2lite -- bash -c '...'`, print mode:
+### 🌌 NB2Lite Agent (gemini-3.1-flash-lite-image) Help & Configuration
+- `generate_image`
+- `edit_image`
+- `edit_local_image`
+- `edit_local_image_with_style`
+- `get_help`
+# agy skills: workspace .agents/skills not discovered; ~/.gemini/config/skills/verify-live (symlink) listed.
+# codex: verify-live (from .agents/skills) and AGENTS.md both reported loaded.

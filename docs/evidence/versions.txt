@@ -1,0 +1,23 @@
+# Captured 2026-09-13T17:58:35Z on debian, repo 1a30238
+$ python3 --version
+Python 3.14.7
+$ python3 -m pip show mcp mcp-types google-genai | grep -E '^(Name|Version)'
+Name: mcp
+Version: 2.2.0
+Name: mcp-types
+Version: 2.2.0
+Name: google-genai
+Version: 2.22.0
+$ ruff --version; mypy --version
+ruff 0.16.7
+mypy 2.3.1 (compiled: yes)
+$ claude --version; codex --version; agy --version
+2.1.270 (Claude Code)
+codex-cli 0.153.4
+1.2.2
+$ cat requirements.txt
+google-genai>=2,<3
+mcp>=2,<3
+$ git remote -v
+origin	https://github.com/xbill9/nb2lite (fetch)
+origin	https://github.com/xbill9/nb2lite (push)

@@ -1,0 +1,24 @@
+# Captured 2026-09-13T17:59:20Z: server.py at the original article (2026-07-04 = commit 4272491) vs HEAD
+$ git diff --stat 4272491 HEAD -- server.py requirements.txt test_agent.py
+ requirements.txt |   4 +-
+ server.py        | 113 ++++++++++++++++++++++++++++++++++++++++++++-----------
+ test_agent.py    |  54 ++++++++++++++++++++++++--
+ 3 files changed, 144 insertions(+), 27 deletions(-)
+$ tools then
+def generate_image(
+def edit_image(
+def edit_local_image(
+def get_help() -> str:
+$ tools now
+def generate_image(
+def edit_image(
+def edit_local_image(
+def edit_local_image_with_style(
+def get_help() -> str:
+$ imports then
+9:from google import genai
+10:from mcp.server.fastmcp import FastMCP
+$ key lookup then
+25:MODEL_NAME = os.environ.get("GEMINI_MODEL_NAME", "gemini-3.1-flash-lite-image")
+39:        api_key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+256:        if (os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY"))

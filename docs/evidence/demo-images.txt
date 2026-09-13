@@ -1,0 +1,26 @@
+# Captured 2026-09-13 ~18:00Z in Claude Code 2.1.270 through the nb2lite MCP server
+# (mcp 2.2.0, google-genai 2.22.0). Tool results verbatim; files renamed into docs/img/.
+
+generate_image(prompt="pixel-art ghost banana character with big friendly eyes, floating, dark indigo background, crisp 16-bit style", aspect_ratio="16:9", thinking_level="minimal")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/gen_1789322371_4fc516ed.jpg
+• Interaction ID: v1_ChdndVNtYXN6ZkRQcmRqTWNQbXV5QjJBZxIXZ3VTbWFzemZEUHJkak1jUG11eUIyQWc
+-> docs/img/nb2lite-ghost-banana.jpg
+
+edit_image(previous_interaction_id="v1_ChdndVNtYXN6ZkRQcmRqTWNQbXV5QjJBZxIXZ3VTbWFzemZEUHJkak1jUG11eUIyQWc", edit_prompt="make the ghost banana steampunk: brass gears, rivets and goggle eyes", thinking_level="minimal")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/edit_1789322402_e466080a.jpg
+• Interaction ID: v1_ChdndVNtYXN6ZkRQcmRqTWNQbXV5QjJBZxIXb2VTbWFxaVhEcUt3MU1rUGt1Zmh3UXM
+-> docs/img/nb2lite-steampunk-banana.jpg
+
+generate_image(prompt="a traditional Japanese ukiyo-e woodblock print of a great wave, flat colors, bold outlines, visible paper grain", aspect_ratio="16:9", thinking_level="minimal")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/gen_1789322407_8dc09a3f.jpg
+• Interaction ID: v1_ChdwZVNtYXVURk9hQ1cxTWtQaXUtR2tRMBIXcGVTbWF1VEZPYUNXMU1rUGl1LUdrUTA
+-> docs/img/nb2lite-wave-reference.jpg
+
+edit_local_image_with_style(image_path="gen_1789322371_4fc516ed.jpg", style_image_path="gen_1789322407_8dc09a3f.jpg", edit_prompt="keep the banana character and its big eyes", aspect_ratio="16:9", thinking_level="minimal")
+🟢 Image successfully saved!
+• Saved to: /home/xbill/nb2lite/style_edit_1789322423_7efbadf5.jpg
+• Interaction ID: v1_Chd0dVNtYW83Q0FjU1FfdU1QdTVTNHNBZxIXdHVTbWFvN0NBY1NRX3VNUHU1UzRzQWc
+-> docs/img/nb2lite-woodblock-banana.jpg
