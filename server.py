@@ -301,7 +301,7 @@ def edit_local_image_with_style(
                     img_data,
                     {
                         "type": "text",
-                        "text": f"Apply the exact visual style, artistic technique, color palette, and lighting from the first image to the person in the second image. {edit_prompt}",
+                        "text": f"Apply the exact visual style, artistic technique, color palette, and lighting from the first image to the second image, keeping the second image's subject and composition. {edit_prompt}",
                     },
                 ],
             ),

@@ -1,7 +1,7 @@
 {
   "name": "nb2lite",
   "description": "Generate, edit and restyle images with gemini-3.1-flash-lite-image via Gemini's stateful Interactions API: text-to-image, multi-turn edits by interaction ID, local-image edits and style transfer. Includes /verify-live, an end-to-end check against the real API.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "xbill9",
     "url": "https://github.com/xbill9"

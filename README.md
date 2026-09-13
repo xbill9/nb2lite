@@ -173,7 +173,7 @@ Uploads a local image file in-line via Base64 and applies edits described in nat
   ```
 
 #### 4. `edit_local_image_with_style`
-Edits a local image using a second local image as a style reference. The model is told to apply the style reference's visual style, technique, color palette, and lighting to the person in the target image, followed by your `edit_prompt`.
+Edits a local image using a second local image as a style reference. The model is told to apply the style reference's visual style, technique, color palette, and lighting to the target image while keeping its subject and composition, followed by your `edit_prompt`.
 
 * **Arguments**:
   - `image_path` (`str`): Path to the local image to be edited.
