@@ -13,16 +13,18 @@ The unit tests mock the Gemini client, so they pass even when the real API or SD
 
    When working inside the nb2lite repo itself, also run `make lint`. Report failures but continue.
 
-2. **Live chain** through the nb2lite MCP server's tools, always with `thinking_level="minimal"`:
+2. **Live chain** through the nb2lite MCP server's tools, always with `thinking_level="minimal"`. Steps 1 and 4 are independent — call them together; once both return, call 2, 3 and 5 together:
    1. `generate_image(prompt="a small red cube on a white table", thinking_level="minimal")` — note the `Saved to:` path and the `Interaction ID:`.
    2. `edit_image(previous_interaction_id=<ID from 1>, edit_prompt="make the cube blue", thinking_level="minimal")`
    3. `edit_local_image(image_path=<path from 1>, edit_prompt="add a small green sphere next to the cube", thinking_level="minimal")`
    4. `generate_image(prompt="a loose watercolor painting of sunflowers, visible brushstrokes and paper texture", thinking_level="minimal")` — the style reference. It must look nothing like the cube photo, or step 5 cannot show a transfer.
    5. `edit_local_image_with_style(image_path=<path from 1>, style_image_path=<path from 4>, edit_prompt="keep the cube and table", thinking_level="minimal")`
 
-   If no nb2lite tools are available, the server is not connected: tell the user to check `/mcp` and stop.
+   If no nb2lite tools are available (they may be deferred — search for `nb2lite` before concluding), the server is not connected: tell the user to reconnect it in `/mcp` and stop. A server registered partway through a session does not expose its tools until that reconnect.
 
-3. **Inspect** each saved image with Read and confirm: a red cube; then the same scene with the cube blue (stateful edit); then the red cube with a green sphere added (local edit); then a watercolor painting; then the red cube on the table rendered as a watercolor (style transfer — the cube scene must survive and the medium must change; a photo, or sunflowers, is a failure). A `🟢` result with no image file, or an image that ignores the edit, is a failure.
+   Images are written to `IMAGE_OUTPUT_DIR`, which defaults to the server's working directory — usually the nb2lite repo root, where `.gitignore` already excludes `*.jpg`/`*.png`.
+
+3. **Inspect** each saved image with Read and confirm: a red cube; then the same scene with the cube blue (stateful edit); then the red cube with a green sphere added (local edit); then a watercolor painting; then the red cube on the table rendered as a watercolor (style transfer — the cube scene must survive and the medium must change; a photo, or sunflowers, is a failure; incidental details borrowed from the reference, such as the table turning to wood, are fine). A `🟢` result with no image file, or an image that ignores the edit, is a failure.
 
 4. **Report** pass/fail per step, quoting the full `🔴` message for any failure. Common causes:
    - HTTP 400 naming an SDK version: the `python3` running the server has google-genai 1.x. Check `python3 -m pip show google-genai mcp`; it needs google-genai ≥2 and mcp ≥2.
