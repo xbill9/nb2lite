@@ -1,3 +1,4 @@
+import asyncio
 import os
 import tempfile
 import unittest
@@ -145,11 +146,12 @@ class TestNB2LiteAgent(unittest.TestCase):
         mock_client_cls.assert_called_with(api_key="env-key")
 
     def test_mcp_tools_registered(self):
-        """Verify that the expected tools are registered to the FastMCP server."""
-        tools = [t.name for t in mcp._tool_manager.list_tools()]
+        """Verify that the expected tools are registered to the MCPServer."""
+        tools = [t.name for t in asyncio.run(mcp.list_tools())]
         self.assertIn("generate_image", tools)
         self.assertIn("edit_image", tools)
         self.assertIn("edit_local_image", tools)
+        self.assertIn("edit_local_image_with_style", tools)
         self.assertIn("get_help", tools)
 
     def test_get_help(self):
