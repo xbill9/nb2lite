@@ -85,7 +85,14 @@ agy mcp add nb2lite -- bash -c 'GEMINI_API_KEY=$(cat ~/gemini.key) exec python3 
 agy mcp list
 ```
 
-That writes `~/.gemini/config/mcp_config.json`; any flags (`--env`, `--type`) must come before the name. Inside this repo agy picks up `.agents/skills/verify-live` and reads `AGENTS.md`. To use the skill elsewhere, link it into your global skills: `ln -s /path/to/nb2lite/skills/verify-live ~/.gemini/config/skills/verify-live`.
+That writes `~/.gemini/config/mcp_config.json`; any flags (`--env`, `--type`) must come before the name. Tool calls work in print mode (`agy -p=...`) without extra approval settings.
+
+The agy CLI does not discover the repo's `.agents/skills`, so link the skill into your global skills (a symlink is fine):
+
+```bash
+mkdir -p ~/.gemini/config/skills
+ln -s /path/to/nb2lite/skills/verify-live ~/.gemini/config/skills/verify-live
+```
 
 ### Other MCP clients
 
