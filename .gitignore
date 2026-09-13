@@ -3,7 +3,7 @@ __pycache__/
 *.jpg
 *.png
 *.webp
-.agents/
+.agents/mcp_config.json
 .ruff_cache
 .mypy_cache
 .env
