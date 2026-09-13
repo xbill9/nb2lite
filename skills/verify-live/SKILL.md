@@ -1,6 +1,6 @@
 ---
 name: verify-live
-description: Verify the nb2lite image tools end to end against the real Gemini API — run the unit tests, then chain generate_image → edit_image → edit_local_image through the nb2lite MCP server and inspect each image. Use after installing or updating nb2lite, after google-genai or mcp upgrades, or when an nb2lite tool returns 🔴.
+description: Verify the nb2lite image tools end to end against the real Gemini API — run the unit tests, then chain generate_image → edit_image → edit_local_image → edit_local_image_with_style through the nb2lite MCP server and inspect each image. Use after installing or updating nb2lite, after google-genai or mcp upgrades, or when an nb2lite tool returns 🔴.
 ---
 
 The unit tests mock the Gemini client, so they pass even when the real API or SDK has broken. This skill checks the path users actually hit: the running nb2lite MCP server.
@@ -17,10 +17,11 @@ The unit tests mock the Gemini client, so they pass even when the real API or SD
    1. `generate_image(prompt="a small red cube on a white table", thinking_level="minimal")` — note the `Saved to:` path and the `Interaction ID:`.
    2. `edit_image(previous_interaction_id=<ID from 1>, edit_prompt="make the cube blue", thinking_level="minimal")`
    3. `edit_local_image(image_path=<path from 1>, edit_prompt="add a small green sphere next to the cube", thinking_level="minimal")`
+   4. `edit_local_image_with_style(image_path=<path from 1>, style_image_path=<path from 2>, edit_prompt="keep the composition", thinking_level="minimal")`
 
    If no nb2lite tools are available, the server is not connected: tell the user to check `/mcp` and stop.
 
-3. **Inspect** each saved image with Read and confirm: a red cube; then the same scene with the cube blue (stateful edit); then the red cube with a green sphere added (local edit). A `🟢` result with no image file, or an image that ignores the edit, is a failure.
+3. **Inspect** each saved image with Read and confirm: a red cube; then the same scene with the cube blue (stateful edit); then the red cube with a green sphere added (local edit); then the scene from step 1 taking on the look of step 2's image (style transfer — a new image, not a copy of either input). A `🟢` result with no image file, or an image that ignores the edit, is a failure.
 
 4. **Report** pass/fail per step, quoting the full `🔴` message for any failure. Common causes:
    - HTTP 400 naming an SDK version: the `python3` running the server has google-genai 1.x. Check `python3 -m pip show google-genai mcp`; it needs google-genai ≥2 and mcp ≥2.
