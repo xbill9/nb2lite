@@ -212,7 +212,9 @@ Run the `verify-live` skill from your agent — `/nb2lite:verify-live` with the 
 
 | Command | Description |
 | :--- | :--- |
-| `make install` | Installs Python requirements. |
+| `make deps` | Installs Python requirements into the global `python3`. |
+| `make install` | `make deps`, then reinstalls the `nb2lite@nb2lite` plugin from the working tree (no version bump needed). |
+| `make skill-install` | Copies `skills/verify-live` to `~/.claude/skills/verify-live`, for hosts without the plugin. Using both loads the skill twice. |
 | `make run` | Starts the MCP server over stdio. |
 | `make test` | Runs the unit tests (`unittest`; the Gemini client is mocked). |
 | `make lint` | Runs `ruff check`, `ruff format --check` (including code blocks in `.md` files) and `mypy`. |

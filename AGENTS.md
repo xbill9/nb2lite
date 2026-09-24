@@ -12,7 +12,7 @@ nb2lite gives agents **Nano Banana 2 Lite** — Google's `gemini-3.1-flash-lite-
 
 - `make test` runs unittest (`python test_agent.py`); pytest is not installed. Single test: `python3 -m unittest test_agent.TestNB2LiteAgent.test_get_help`.
 - `make lint` (`ruff check`, `ruff format --check`, `mypy`) must pass. `ruff format` also formats code blocks inside `.md` files — that is intended, so run `ruff format <file>` after editing Markdown or Python.
-- Install into the global pyenv `python3` (`make install`). No venvs.
+- Install into the global pyenv `python3` (`make deps`). No venvs. `make install` runs `deps`, then uninstalls and reinstalls the Claude Code plugin from the working tree, so skill edits reach it without a version bump; `make skill-install` copies `skills/verify-live` to `~/.claude/skills/` instead.
 
 ## Gotchas
 
