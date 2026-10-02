@@ -23,14 +23,23 @@ deps:
 # The plugin is installed from this directory as a marketplace. `claude plugin
 # update` compares version numbers only, so an edit without a version bump never
 # reaches the installed copy; uninstall + install snapshots the working tree every
-# time. --keep-data keeps the stored Gemini API key. skill-install is the
-# plain-copy route for hosts without the plugin; using both loads the skill twice.
+# time. The reinstall drops the sensitive gemini_api_key option even with
+# --keep-data, so it is re-applied from $(KEY_FILE) when that file exists.
+# skill-install is the plain-copy route for hosts without the plugin; using both
+# loads each skill twice.
+KEY_FILE ?= $(HOME)/gemini.key
+
 install: deps
 	@command -v claude >/dev/null || { echo "claude not found; skipped plugin install"; exit 0; } \
 		&& claude plugin validate . \
 		&& claude plugin marketplace update $(PLUGIN) \
 		&& { claude plugin uninstall --keep-data --scope user $(PLUGIN)@$(PLUGIN) || true; } \
-		&& claude plugin install --scope user $(PLUGIN)@$(PLUGIN)
+		&& claude plugin install --scope user $(PLUGIN)@$(PLUGIN) \
+		&& if [ -r "$(KEY_FILE)" ]; then \
+			python3 -c 'import json,sys; print(json.dumps({"gemini_api_key": open(sys.argv[1]).read().strip()}))' "$(KEY_FILE)" \
+				| claude plugin configure --values-stdin $(PLUGIN)@$(PLUGIN) \
+				&& echo "gemini_api_key set from $(KEY_FILE)"; \
+		else echo "$(KEY_FILE) not found: set the key with /plugin configure $(PLUGIN)@$(PLUGIN)"; fi
 
 skill-install:
 	mkdir -p $(HOME)/.claude/skills
