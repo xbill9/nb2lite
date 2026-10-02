@@ -32,7 +32,7 @@ Every agent launches the same stdio command; the key is read from `~/gemini.key`
 
 | Agent | Register | Notes |
 | :--- | :--- | :--- |
-| Claude Code | plugin (`claude plugin install nb2lite@nb2lite`) or `claude mcp add --scope user nb2lite -- bash -c 'GEMINI_API_KEY=$(cat ~/gemini.key) exec python3 /path/to/nb2lite/server.py'` | Reconnect with `/mcp`. Tools are `mcp__nb2lite__*`. |
+| Claude Code | plugin (`claude plugin install nb2lite@nb2lite`) or `claude mcp add --scope user nb2lite -- bash -c 'GEMINI_API_KEY=$(cat ~/gemini.key) exec python3 /path/to/nb2lite/server.py'` | Reconnect with `/mcp`. Tools are `mcp__plugin_nb2lite_nb2lite__*` from the plugin, `mcp__nb2lite__*` from `mcp add`. |
 | Codex | `codex mcp add nb2lite -- bash -c 'GEMINI_API_KEY=$(cat ~/gemini.key) exec python3 /path/to/nb2lite/server.py'` | Writes `~/.codex/config.toml`. `codex exec` refuses MCP calls ("requires approval, but approval policy is never") unless `[mcp_servers.nb2lite]` has `default_tools_approval_mode = "approve"`. |
 | agy | `agy mcp add nb2lite -- bash -c 'GEMINI_API_KEY=$(cat ~/gemini.key) exec python3 /path/to/nb2lite/server.py'` | Writes `~/.gemini/config/mcp_config.json`; flags go before the name. Print mode must attach the prompt to the flag (`agy -p="..."`), with other flags before it. |
 

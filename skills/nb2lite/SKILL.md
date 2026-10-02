@@ -3,7 +3,7 @@ name: nb2lite
 description: Generate, edit and restyle images with Nano Banana 2 Lite (gemini-3.1-flash-lite-image) through the nb2lite MCP server — text-to-image, multi-turn edits by interaction ID, edits of a local image file, and style transfer from a reference image. Use whenever the user asks to make, draw, render, generate, edit, change, restyle or "nano banana" an image, a cover image, an illustration, an icon or a picture, or to apply one image's style to another.
 ---
 
-nb2lite exposes Nano Banana 2 Lite as MCP tools. They appear as `mcp__nb2lite__<tool>` in Claude Code (often deferred — search for `nb2lite` to load them before concluding they are missing) and as `nb2lite/<tool>` in Codex. If none are available, the server is not connected: tell the user to register or restart it (Claude Code: `/mcp`; Codex: `codex mcp list`, then a new session; agy: `agy mcp list`, then a new session) and stop.
+nb2lite exposes Nano Banana 2 Lite as MCP tools. They appear in Claude Code as `mcp__plugin_nb2lite_nb2lite__<tool>` when installed as the plugin, or `mcp__nb2lite__<tool>` when added with `claude mcp add`, (often deferred — search for `nb2lite` to load them before concluding they are missing) and as `nb2lite/<tool>` in Codex. If none are available, the server is not connected: tell the user to register or restart it (Claude Code: `/mcp`; Codex: `codex mcp list`, then a new session; agy: `agy mcp list`, then a new session) and stop.
 
 ## Pick the tool
 

@@ -20,7 +20,7 @@ The unit tests mock the Gemini client, so they pass even when the real API or SD
    4. `generate_image(prompt="a loose watercolor painting of sunflowers, visible brushstrokes and paper texture", thinking_level="minimal")` — the style reference. It must look nothing like the cube photo, or step 5 cannot show a transfer.
    5. `edit_local_image_with_style(image_path=<path from 1>, style_image_path=<path from 4>, edit_prompt="keep the cube and table", thinking_level="minimal")`
 
-   The tools appear as `mcp__nb2lite__<tool>` in Claude Code and as `nb2lite/<tool>` in Codex. If none are available (in Claude Code they may be deferred — search for `nb2lite` before concluding), the server is not connected: tell the user to register or restart it (Claude Code: `/mcp`; Codex: `codex mcp list`, then a new session; agy: `agy mcp list`, then a new session) and stop.
+   The tools appear in Claude Code as `mcp__plugin_nb2lite_nb2lite__<tool>` when installed as the plugin, or `mcp__nb2lite__<tool>` when added with `claude mcp add`, and as `nb2lite/<tool>` in Codex. If none are available (in Claude Code they may be deferred — search for `nb2lite` before concluding), the server is not connected: tell the user to register or restart it (Claude Code: `/mcp`; Codex: `codex mcp list`, then a new session; agy: `agy mcp list`, then a new session) and stop.
 
    Images are written to `IMAGE_OUTPUT_DIR`, which defaults to the server's working directory — in the nb2lite repo root, `.gitignore` already excludes `*.jpg`/`*.png`/`*.webp`.
 
