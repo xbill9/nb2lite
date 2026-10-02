@@ -2,8 +2,7 @@
 GEMINI_MODEL_NAME ?= gemini-3.1-flash-lite-image
 
 PLUGIN     := nb2lite
-SKILL_NAME := verify-live
-SKILL_DIR  := skills/$(SKILL_NAME)
+SKILLS     := nb2lite verify-live
 
 .PHONY: help deps install skill-install run test lint clean
 
@@ -12,7 +11,7 @@ help:
 	@echo "  make deps          - pip install requirements into the global python3"
 	@echo "  make install       - deps, then reinstall the $(PLUGIN)@$(PLUGIN) plugin from the"
 	@echo "                       working tree (no version bump needed)"
-	@echo "  make skill-install - copy $(SKILL_DIR) to ~/.claude/skills/$(SKILL_NAME)"
+	@echo "  make skill-install - copy skills/{$(SKILLS)} to ~/.claude/skills/"
 	@echo "  make run           - run the MCP server on stdio"
 	@echo "  make test          - unit tests"
 	@echo "  make lint          - ruff check, ruff format --check, mypy"
@@ -35,10 +34,12 @@ install: deps
 
 skill-install:
 	mkdir -p $(HOME)/.claude/skills
-	rm -rf $(HOME)/.claude/skills/$(SKILL_NAME)
-	cp -r $(SKILL_DIR) $(HOME)/.claude/skills/$(SKILL_NAME)
-	find $(HOME)/.claude/skills/$(SKILL_NAME) -name __pycache__ -type d -prune -exec rm -rf {} +
-	@echo "Installed to $(HOME)/.claude/skills/$(SKILL_NAME)"
+	for s in $(SKILLS); do \
+		rm -rf $(HOME)/.claude/skills/$$s \
+		&& cp -r skills/$$s $(HOME)/.claude/skills/$$s \
+		&& find $(HOME)/.claude/skills/$$s -name __pycache__ -type d -prune -exec rm -rf {} + \
+		&& echo "Installed to $(HOME)/.claude/skills/$$s" || exit 1; \
+	done
 
 run:
 	python server.py

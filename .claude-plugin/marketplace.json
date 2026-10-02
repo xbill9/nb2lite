@@ -9,7 +9,7 @@
     {
       "name": "nb2lite",
       "source": "./",
-      "description": "Generate and iteratively edit images with gemini-3.1-flash-lite-image from Claude Code. Bundles the MCP server and /verify-live, which proves the real API path end to end — because mocked tests pass even after the API has broken."
+      "description": "Generate and iteratively edit images with gemini-3.1-flash-lite-image from Claude Code. Bundles the MCP server, the nb2lite usage skill and /verify-live, which proves the real API path end to end — because mocked tests pass even after the API has broken."
     }
   ]
 }

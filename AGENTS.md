@@ -2,9 +2,10 @@
 
 Guidance for coding agents (Claude Code, Codex, Antigravity/agy) working in this repository.
 
-nb2lite gives agents **Nano Banana 2 Lite** — Google's `gemini-3.1-flash-lite-image` — as MCP tools, through Gemini's stateful Interactions API. It ships three things:
+nb2lite gives agents **Nano Banana 2 Lite** — Google's `gemini-3.1-flash-lite-image` — as MCP tools, through Gemini's stateful Interactions API. It ships four things:
 
 - `server.py` — the MCP server (`generate_image`, `edit_image`, `edit_local_image`, `edit_local_image_with_style`, `get_help`).
+- `skills/nb2lite/` — the usage skill: which tool to pick, arguments, prompting, and checking results. Linked the same way as `verify-live` (below), via `.claude/skills/nb2lite`, `.agents/skills/nb2lite` and `~/.gemini/config/skills/nb2lite`. Keep it in step with `server.py` when tools or their output strings change.
 - `skills/verify-live/` — an end-to-end check against the real API. Exposed to Claude Code through the plugin (and `.claude/skills/verify-live`), and to Codex through `.agents/skills/verify-live`; both entries are symlinks to `skills/verify-live`. The agy CLI ignores workspace `.agents/skills` — it needs `~/.gemini/config/skills/verify-live` linked to `skills/verify-live`.
 - `.claude-plugin/` — the Claude Code plugin and marketplace manifests.
 
@@ -12,7 +13,7 @@ nb2lite gives agents **Nano Banana 2 Lite** — Google's `gemini-3.1-flash-lite-
 
 - `make test` runs unittest (`python test_agent.py`); pytest is not installed. Single test: `python3 -m unittest test_agent.TestNB2LiteAgent.test_get_help`.
 - `make lint` (`ruff check`, `ruff format --check`, `mypy`) must pass. `ruff format` also formats code blocks inside `.md` files — that is intended, so run `ruff format <file>` after editing Markdown or Python.
-- Install into the global pyenv `python3` (`make deps`). No venvs. `make install` runs `deps`, then uninstalls and reinstalls the Claude Code plugin from the working tree, so skill edits reach it without a version bump; `make skill-install` copies `skills/verify-live` to `~/.claude/skills/` instead.
+- Install into the global pyenv `python3` (`make deps`). No venvs. `make install` runs `deps`, then uninstalls and reinstalls the Claude Code plugin from the working tree, so skill edits reach it without a version bump; `make skill-install` copies both skills to `~/.claude/skills/` instead.
 
 ## Gotchas
 
@@ -20,7 +21,7 @@ nb2lite gives agents **Nano Banana 2 Lite** — Google's `gemini-3.1-flash-lite-
 - google-genai must be ≥2. The Interactions API removed the legacy `outputs` schema on 2026-06-08 and rejects 1.x with HTTP 400; responses are `steps`, and images are read via `interaction.output_image`.
 - Unit tests mock `_get_client`, so they cannot catch SDK/API drift — verify real behavior with the `verify-live` skill.
 - Tools never raise: each catches everything and returns a `🟢`/`🔴` string, and tests assert on those strings.
-- When adding or changing a tool, also update the `get_help` text in `server.py`, the tool list in `README.md`, and `test_agent.py`.
+- When adding or changing a tool, also update the `get_help` text in `server.py`, the tool list in `README.md`, `skills/nb2lite/SKILL.md`, and `test_agent.py`.
 - Bump `"version"` in `.claude-plugin/plugin.json` whenever anything under `skills/` or the plugin manifest changes — installed Claude Code plugins only update on a version change.
 - `set_env.sh` and `init.sh` are identical by design — edit both together. They must be `source`d.
 - Env: API key from `NB2LITE_GEMINI_API_KEY` (set by the Claude Code plugin), then `GEMINI_API_KEY`, then `GOOGLE_API_KEY`; optional `GEMINI_MODEL_NAME`, `IMAGE_OUTPUT_DIR` (default `.`, the server's working directory).

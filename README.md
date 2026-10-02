@@ -4,7 +4,7 @@
 [![API: Interactions API](https://img.shields.io/badge/API-Interactions%20API-blue.svg)](docs/interactions-api.md)
 [![Protocol: MCP](https://img.shields.io/badge/Protocol-MCP%202.x-green.svg)](#-agent-setup)
 
-nb2lite puts **Nano Banana 2 Lite** — Google's `gemini-3.1-flash-lite-image` — in the hands of **Claude Code**, **Codex** and **Antigravity (`agy`)**. It is an MCP server that generates, edits and restyles images through Gemini's stateful **Interactions API**, plus a `verify-live` skill that proves the real API path works end to end.
+nb2lite puts **Nano Banana 2 Lite** — Google's `gemini-3.1-flash-lite-image` — in the hands of **Claude Code**, **Codex** and **Antigravity (`agy`)**. It is an MCP server that generates, edits and restyles images through Gemini's stateful **Interactions API**, plus two skills: `nb2lite`, which teaches agents which tool to use when, and `verify-live`, which proves the real API path works end to end.
 
 Because the Interactions API is stateful, an agent can generate an image and then keep refining it by interaction ID, instead of re-prompting from scratch and losing continuity.
 
@@ -17,6 +17,7 @@ Because the Interactions API is stateful, an agent can generate an image and the
 - 🖌️ **Style transfer**: repaint one local image in the style of another.
 - 🧠 **Thinking levels**: trade latency for quality with `minimal`, `low`, `medium` or `high`.
 - 📂 **Safe file output**: every image is saved under `IMAGE_OUTPUT_DIR` with a timestamp + UUID name, so parallel calls never collide.
+- 🧭 **`nb2lite` skill**: picks the right tool for each request, prefers stateful edits for follow-ups, and makes the agent inspect every image before reporting it.
 - ✅ **`verify-live` skill**: unit tests plus a five-step live chain, inspected image by image — the mocked unit tests alone cannot catch API or SDK drift.
 
 ---
@@ -44,7 +45,7 @@ Every agent runs the same stdio command. The examples read the key from `~/gemin
 
 ### Claude Code
 
-**Plugin** (bundles the server and `/nb2lite:verify-live`; this repo is its own marketplace):
+**Plugin** (bundles the server, the `nb2lite` usage skill and `/nb2lite:verify-live`; this repo is its own marketplace):
 
 ```bash
 claude plugin marketplace add xbill9/nb2lite
@@ -76,7 +77,12 @@ args = ["-c", "GEMINI_API_KEY=$(cat ~/gemini.key) exec python3 /path/to/nb2lite/
 default_tools_approval_mode = "approve"
 ```
 
-Inside this repo Codex picks up the skill from `.agents/skills/verify-live`. To use it elsewhere, link it into your user skills: `ln -s /path/to/nb2lite/skills/verify-live ~/.codex/skills/verify-live`.
+Inside this repo Codex picks up the skills from `.agents/skills/`. To use them elsewhere, link them into your user skills:
+
+```bash
+ln -s /path/to/nb2lite/skills/nb2lite ~/.codex/skills/nb2lite
+ln -s /path/to/nb2lite/skills/verify-live ~/.codex/skills/verify-live
+```
 
 ### Antigravity (`agy`)
 
@@ -87,10 +93,11 @@ agy mcp list
 
 That writes `~/.gemini/config/mcp_config.json`; any flags (`--env`, `--type`) must come before the name. Tool calls work in print mode (`agy -p=...`) without extra approval settings.
 
-The agy CLI does not discover the repo's `.agents/skills`, so link the skill into your global skills (a symlink is fine):
+The agy CLI does not discover the repo's `.agents/skills`, so link the skills into your global skills (a symlink is fine):
 
 ```bash
 mkdir -p ~/.gemini/config/skills
+ln -s /path/to/nb2lite/skills/nb2lite ~/.gemini/config/skills/nb2lite
 ln -s /path/to/nb2lite/skills/verify-live ~/.gemini/config/skills/verify-live
 ```
 
@@ -214,7 +221,7 @@ Run the `verify-live` skill from your agent — `/nb2lite:verify-live` with the 
 | :--- | :--- |
 | `make deps` | Installs Python requirements into the global `python3`. |
 | `make install` | `make deps`, then reinstalls the `nb2lite@nb2lite` plugin from the working tree (no version bump needed). |
-| `make skill-install` | Copies `skills/verify-live` to `~/.claude/skills/verify-live`, for hosts without the plugin. Using both loads the skill twice. |
+| `make skill-install` | Copies `skills/nb2lite` and `skills/verify-live` to `~/.claude/skills/`, for hosts without the plugin. Using both loads each skill twice. |
 | `make run` | Starts the MCP server over stdio. |
 | `make test` | Runs the unit tests (`unittest`; the Gemini client is mocked). |
 | `make lint` | Runs `ruff check`, `ruff format --check` (including code blocks in `.md` files) and `mypy`. |
